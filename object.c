@@ -129,8 +129,30 @@ int object_write(ObjectType type, const void *data, size_t len, ObjectID *id_out
 //
 // The caller is responsible for calling free(*data_out).
 // Returns 0 on success, -1 on error (file not found, corrupt, etc.).
-int object_read(const ObjectID *id, ObjectType *type_out, void **data_out, size_t *len_out) {
-    // TODO: Implement
-    (void)id; (void)type_out; (void)data_out; (void)len_out;
-    return -1;
+int object_write(ObjectType type, const void *data, size_t len, ObjectID *id_out) {
+    // Step 1: create header "blob <size>\0"
+    
+    char header[64];
+    const char *type_str = "blob";  // for now assume blob (we refine later)
+
+    int header_len = snprintf(header, sizeof(header), "%s %zu", type_str, len);
+    
+    // add null terminator manually
+    header[header_len] = '\0';
+    header_len += 1;
+
+    // Step 2: combine header + data
+    size_t total_size = header_len + len;
+    unsigned char *full_data = malloc(total_size);
+
+    if (!full_data) return -1;
+
+    memcpy(full_data, header, header_len);
+    memcpy(full_data + header_len, data, len);
+
+    // NOTE: hashing + writing will be done in next commits
+
+    free(full_data);
+
+    return -1; // still incomplete
 }
