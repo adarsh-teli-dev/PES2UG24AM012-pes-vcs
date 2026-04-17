@@ -139,6 +139,13 @@ int tree_from_index(ObjectID *id_out) {
     for (int i = 0; i < index.count; i++) {
     IndexEntry *entry = &index.entries[i];
 
+    TreeEntry *te = &root.entries[root.count++];
+
+    te->mode = entry->mode;
+    strcpy(te->name, entry->path);
+    te->hash = entry->hash;
+}
+
     // debug (optional)
     // printf("File: %s\n", entry->path);
 }
