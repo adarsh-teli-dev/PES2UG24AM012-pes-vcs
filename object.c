@@ -6,7 +6,11 @@
 // hash (directory sharding).
 //
 // PROVIDED functions: compute_hash, object_path, object_exists, hash_to_hex, hex_to_hash
-// TODO functions:     object_write, object_read
+// Step 1: Create header (format: "<type> <size>\0")
+// Step 2: Combine header + data
+// Step 3: Compute SHA-256 hash of full object
+// Step 4: Determine storage path (.pes/objects/xx/yyyy...)
+// Step 5: Write object using atomic write (temp file + rename)
 
 #include "pes.h"
 #include <stdio.h>
@@ -61,7 +65,11 @@ int object_exists(const ObjectID *id) {
 }
 
 // ─── TODO: Implement these ──────────────────────────────────────────────────
-
+// Step 1: Locate object file using hash
+// Step 2: Read full object from disk
+// Step 3: Parse header to extract type and size
+// Step 4: Extract actual data (after '\0')
+// Step 5: Recompute hash and verify integrity
 // Write an object to the store.
 //
 // Object format on disk:
