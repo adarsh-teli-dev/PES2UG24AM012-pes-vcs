@@ -146,7 +146,8 @@ int object_write(ObjectType type, const void *data, size_t len, ObjectID *id_out
     memcpy(full_data + header_len, data, len);
 
     // NOTE: hashing + writing will be done in next commits
-
+    
+    compute_hash(full_data, total_size, id_out);
     free(full_data);
 
     return -1; // still incomplete
