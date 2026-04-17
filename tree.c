@@ -1,7 +1,11 @@
 // tree.c — Tree object serialization and construction
 //
 // PROVIDED functions: get_file_mode, tree_parse, tree_serialize
-// TODO functions:     tree_from_index
+// Step 1: iterate through index entries
+// Step 2: split file paths (e.g., "src/main.c")
+// Step 3: build directory hierarchy
+// Step 4: create tree objects recursively
+// Step 5: store trees using object_write
 //
 // Binary tree format (per entry, concatenated with no separators):
 //   "<mode-as-ascii-octal> <name>\0<32-byte-binary-hash>"
