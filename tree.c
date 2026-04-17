@@ -136,6 +136,12 @@ int tree_serialize(const Tree *tree, void **data_out, size_t *len_out) {
 int tree_from_index(ObjectID *id_out) {
     
     root.count = 0;
+    for (int i = 0; i < index.count; i++) {
+    IndexEntry *entry = &index.entries[i];
+
+    // debug (optional)
+    // printf("File: %s\n", entry->path);
+}
  
 if (index_load(&index) != 0) {
     return -1;
