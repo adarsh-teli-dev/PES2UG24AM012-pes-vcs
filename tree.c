@@ -145,6 +145,12 @@ int tree_from_index(ObjectID *id_out) {
     strcpy(te->name, entry->path);
     te->hash = entry->hash;
 }
+void *data;
+size_t len;
+
+if (tree_serialize(&root, &data, &len) != 0) {
+    return -1;
+}
 
     // debug (optional)
     // printf("File: %s\n", entry->path);
