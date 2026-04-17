@@ -155,6 +155,13 @@ if (tree_serialize(&root, &data, &len) != 0) {
     // debug (optional)
     // printf("File: %s\n", entry->path);
 }
+if (object_write(OBJ_TREE, data, len, id_out) != 0) {
+    free(data);
+    return -1;
+}
+
+free(data);
+return 0;
  
 if (index_load(&index) != 0) {
     return -1;
