@@ -202,17 +202,38 @@ int commit_create(const char *message, ObjectID *commit_id_out) {
     Commit commit;
     memset(&commit, 0, sizeof(commit));
 
-commit.tree = tree_id;
-commit.has_parent = has_parent;
+   commit.tree = tree_id;
+   commit.has_parent = has_parent;
 
-if (has_parent) {
+   if (has_parent) {
     commit.parent = parent_id;
-}
+       snprintf(commit.author, sizeof(commit.author), "%s", pes_author());
+    commit.timestamp = time(NULL);
+    snprintf(commit.message, sizeof(commit.message), "%s", message);
 
-snprintf(commit.author, sizeof(commit.author), "%s", pes_author());
-commit.timestamp = time(NULL);
+    void *data;
+    size_t len;
 
-snprintf(commit.message, sizeof(commit.message), "%s", message);
-    if (tree_from_index(&tree_id) != 0) {
-    return -1;
+    if (commit_serialize(&commit, &data, &len) != 0) return -1;
+
+    if (object_write(OBJ_COMMIT, data, len, commit_id_out) != 0) {
+        free(data);
+        return -1;
+    }
+
+    free(data);
+
+    if (head_update(commit_id_out) != 0) return -1;
+
+    return 0;
 }
+    
+  }
+
+   snprintf(commit.author, sizeof(commit.author), "%s", pes_author());
+   commit.timestamp = time(NULL);
+
+   snprintf(commit.message, sizeof(commit.message), "%s", message);
+      if (tree_from_index(&tree_id) != 0) {
+     return -1;
+ }
